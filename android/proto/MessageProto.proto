@@ -1,0 +1,52 @@
+// 从既有 MessageProto.java 生成代码还原的协议定义(字段编号与类型严格保持一致, 与后端线格式兼容)。
+// 客户端使用 lite 运行时生成: protoc --java_out=lite:... 以压缩 APK 体积。
+syntax = "proto3";
+
+package com.family.chat.protobuf;
+
+option java_package = "com.family.chat.protobuf";
+option java_outer_classname = "MessageProto";
+
+// WebSocket 下行消息帧
+message MsgFrame {
+  // 客户端临时ID (Snowflake)
+  int64 tempId = 1;
+  // 发送人ID (Snowflake)
+  int64 senderId = 2;
+  // 接收人ID (Snowflake)
+  int64 receiverId = 3;
+  // 服务端消息ID
+  int64 messageId = 4;
+  // 消息内容
+  string content = 5;
+  // 时间戳
+  int64 timestamp = 6;
+  // 消息/信令类型
+  int32 type = 7;
+  // 会话内连续序号
+  int64 sequence = 8;
+  // ACK 状态 (success/failed)
+  string status = 9;
+  // 未读数
+  int32 unreadCount = 10;
+  // 是否分片帧
+  bool isChunk = 11;
+  // 是否携带序号
+  bool isSequence = 12;
+  // 发送者展示名
+  string senderName = 13;
+  // 发送者头像URL
+  string senderAvatarUrl = 14;
+  // 会话最后一条消息摘要
+  string lastMessage = 15;
+}
+
+// 历史消息拉取响应
+message QueryHistoryResponse {
+  // 业务状态码 (如 1000)
+  int32 code = 1;
+  // 业务提示语 (SUCCESS)
+  string message = 2;
+  // 用于装载历史消息
+  repeated MsgFrame data = 3;
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 包名已由 build.gradle 的 namespace 声明, 此处不再重复 -->
+
+    <!-- ==================== Android 13+ 物理系统通知权限 ==================== -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ==================== 手机物理震动权限 ==================== -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- 录音权限 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- 摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- ==================== 新增：相册读取权限（双版本适配） ==================== -->
+
+    <!-- 1. 用于在 Android 12 及以下系统读取相册图片 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- 2. 用于在 Android 13 及以上系统读取相册图片 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- ==================================================================== -->
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- 允许修改音频设置（切换扬声器/听筒） -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <application
+        android:name=".ChatApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_app_logo_adaptive_fore"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_app_logo_adaptive_fore"
+        android:supportsRtl="true"
+        android:allowNativeHeapPointerTagging="false"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.FamilyChatApp">
+        <!-- 1. 登录页 -->
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.FamilyChatApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 2. 注册页 -->
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <!-- 3. 首页 -->
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <!-- 4. 添加好友页 -->
+
+        <!-- 5. 搜索好友页 -->
+        <activity android:name=".ui.activity.AddFriendActivity" />
+        <activity
+            android:name=".ui.activity.SearchContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" /> <!-- 👈 强制键盘默认可见 -->
+
+        <activity
+            android:name=".ui.activity.FriendDetailActivity"
+            android:screenOrientation="portrait" /> <!-- 建议锁定竖屏以获得更好的视觉体验 -->
+
+        <activity
+            android:name=".ui.activity.FriendSettingsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ChatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" /> <!-- 键盘弹出时将输入面板上推 -->
+
+        <activity
+            android:name=".ui.activity.VoiceCallActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.VideoCallActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ProfileDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ChangeNameActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" /> <!-- 👈 强制键盘默认可见 -->
+
+        <activity
+            android:name=".ui.activity.AddFriendProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.SendFriendRequestActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" /> <!-- 键盘弹出时界面自适应推移 -->
+
+        <activity
+            android:name=".ui.activity.PhotoPickerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.ImagePreviewActivity" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/UCropBlackTheme"/>
+    </application>
+</manifest>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"> <!-- 纯白背景 -->
+
+    <!-- 1. 将原先性能较差的 ListView 升级为大厂标配的 RecyclerView -->
+    <!-- ID 统一修改为 rv_chat_sessions，与您 Java 代码中的 findViewById 精准绑定 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat_sessions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" /> <!-- 隐藏滚动条，保持微信极简风 -->
+
+</FrameLayout>

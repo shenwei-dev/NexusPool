@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ucrop_photobox"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A1A"> <!-- 🌟 图片四周背景色设为 #1A1A1A -->
+
+    <!-- 1. 隐藏的 Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/image_view_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 2. ucrop_frame 画布容器 -->
+    <FrameLayout
+        android:id="@+id/ucrop_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_wechat_bottom_bar"
+        android:background="#1A1A1A">
+
+        <com.yalantis.ucrop.view.UCropView
+            android:id="@+id/ucrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#1A1A1A"/>
+
+    </FrameLayout>
+
+    <!-- 3. 保留 UCrop 内部必须的容器 (设为 gone) -->
+    <FrameLayout
+        android:id="@+id/controls_wrapper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#1A1A1A"
+        android:visibility="gone" />
+
+    <!-- 4. 🌟 控制栏：背景 #1A1A1A，加大 paddingBottom 让按钮向上远离底部导航栏！ -->
+    <RelativeLayout
+        android:id="@+id/layout_wechat_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#1A1A1A"
+        android:fitsSystemWindows="true"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="60dp"> <!-- 👈 增大底边距，按钮向上向上移动！ -->
+
+        <!-- 左侧：取消按钮 -->
+        <TextView
+            android:id="@+id/ucrop_button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:translationX="16dp"
+            android:text="取消"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <!-- 右侧：微信绿确定按钮 -->
+        <TextView
+            android:id="@+id/ucrop_button_crop"
+            android:layout_width="60dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_wechat_btn_send"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

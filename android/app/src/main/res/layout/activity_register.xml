@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#FFFFFF">
+
+    <!-- 1. 欢迎标题 -->
+    <TextView
+        android:id="@+id/tv_register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
+        android:text="设置登录密码"
+        android:textColor="#181818"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 提示语（大厂规范小字，13sp） -->
+    <TextView
+        android:id="@+id/tv_register_sub_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="密码支持字母、数字及特殊符号组合。"
+        android:textColor="#888888"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@id/tv_register_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_register_title" />
+
+    <!-- 2. 密码输入区域 (右侧嵌套微信小眼睛) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_password_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_register_sub_tip">
+
+        <EditText
+            android:id="@+id/et_password_reg"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:hint="请设置您的登录密码"
+            android:textColorHint="#B0B0B3"
+            android:textColor="#181818"
+            android:textSize="16sp"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@id/btn_eye"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 微信眼睛切换按钮 (36dp大点击区域) -->
+        <ImageView
+            android:id="@+id/btn_eye"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_eye_close"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@id/et_password_reg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_password_reg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#E5E5E5"
+            app:layout_constraintTop_toBottomOf="@id/et_message_input"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="NotSibling" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 3. 二级温馨提示 -->
+    <TextView
+        android:id="@+id/tv_footer_tip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="* 注册成功后，系统将自动为您分配唯一的 10 位数密码账号。"
+        android:textColor="#FA5151"
+    android:textSize="12sp"
+    app:layout_constraintEnd_toEndOf="@id/layout_password_reg"
+    app:layout_constraintStart_toStartOf="@id/layout_password_reg"
+    app:layout_constraintTop_toBottomOf="@id/layout_password_reg" />
+
+    <!-- 4. 注册按钮 (绿色) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_register"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="40dp"
+        android:text="注册并获取账号"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:letterSpacing="0"
+        app:backgroundTint="#07C160"
+        app:cornerRadius="8dp"
+        app:elevation="0dp"
+        android:stateListAnimator="@null"
+        app:layout_constraintTop_toBottomOf="@id/tv_footer_tip" />
+
+    <!-- 5. 底部跳转登录链接 -->
+    <TextView
+        android:id="@+id/tv_goto_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="已有账号，直接登录"
+        android:textColor="#576B95"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

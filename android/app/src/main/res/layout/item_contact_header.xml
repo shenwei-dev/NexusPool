@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
+
+    <!-- 新的朋友 -->
+    <LinearLayout
+        android:id="@+id/layout_new_friend"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:background="?attr/selectableItemBackground">
+
+        <!-- 👈 【修改点】：将左侧图标与角标放入 FrameLayout 容器中 -->
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <!-- 新的朋友图标 -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_new_friend_solid"
+                android:padding="8dp"
+                android:background="@drawable/bg_icon_orange_rounded" />
+
+            <!-- 通讯录数字气泡（保持原有 ID: tv_new_friend_unread_count 方便代码调用） -->
+            <TextView
+                android:id="@+id/tv_new_friend_unread_count"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:minWidth="18dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="-4dp"
+                android:layout_marginEnd="-6dp"
+                android:background="@drawable/bg_badge_red_circle"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingStart="5.5dp"
+                android:paddingEnd="5.5dp"
+                android:textColor="@android:color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="1" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/item_new_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="新的朋友"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <!-- 底部粗分隔条 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#F0F0F0" />
+
+    <!-- 群聊 -->
+<!--    <LinearLayout-->
+<!--        android:id="@+id/layout_group_chat"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:background="?attr/selectableItemBackground">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:src="@drawable/ic_group_chat_solid"-->
+<!--            android:padding="8dp"-->
+<!--            android:background="@drawable/bg_icon_green_rounded" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:text="群聊"-->
+<!--            android:textColor="?attr/colorOnSurface"-->
+<!--            android:textSize="17sp" />-->
+<!--    </LinearLayout>-->
+
+    <!-- 底部粗分隔条 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#F0F0F0" />
+
+</LinearLayout>

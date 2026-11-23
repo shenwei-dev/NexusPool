@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    tools:context=".ui.activity.AddFriendActivity">
+
+    <!-- 1. 顶部 Toolbar (应用栏) -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        app:elevation="0dp"> <!-- 去除原生阴影 -->
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_add_friend"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_nav_back"
+            app:navigationIconTint="?attr/colorOnSurface"
+            app:titleCentered="true"
+            app:title="新的朋友">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- 细分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E5E5E5" />
+
+    <!-- 2. 搜索框容器 (带灰色背景和边距) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <!-- 3. EditText 作为静态搜索框 (禁止获取焦点，点击直接跳转) -->
+        <EditText
+            android:id="@+id/et_search_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_edittext_background"
+
+        android:focusable="false"
+        android:clickable="true"
+
+        android:hint="搜索账号"
+        android:textColorHint="#999999"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <!-- 细分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E5E5E5" />
+
+    <!-- 4. 👈 修改点四：追加白底的好友请求列表 RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_friend_requests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        tools:listitem="@layout/item_friend_request" />
+
+</LinearLayout>

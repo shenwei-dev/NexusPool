@@ -1,0 +1,113 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+// 本地环境配置: 从 local.properties 读取并注入 BuildConfig。
+// local.properties 已被忽略, 仓库内只保留 local.properties.example 占位模板。
+def localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+def serverHost = localProps.getProperty('server.host', '10.0.2.2')
+def httpPort = localProps.getProperty('server.http.port', '8080')
+def wsPort = localProps.getProperty('server.ws.port', '8081')
+def amapWebKey = localProps.getProperty('amap.web.key', '')
+def agoraAppId = localProps.getProperty('agora.app.id', '')
+
+android {
+    namespace 'com.family.chat'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.family.chat"
+        minSdk 24
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 环境相关值统一注入, 源码中不保留真实内网地址与第三方密钥
+        buildConfigField "String", "SERVER_HOST", "\"${serverHost}\""
+        buildConfigField "String", "HTTP_PORT", "\"${httpPort}\""
+        buildConfigField "String", "WS_PORT", "\"${wsPort}\""
+        buildConfigField "String", "AMAP_WEB_KEY", "\"${amapWebKey}\""
+        buildConfigField "String", "AGORA_APP_ID", "\"${agoraAppId}\""
+
+        // 体积优化一: 只打包 arm64-v8a 的 so 库。
+        // Agora full-sdk 与高德 3dmap 各自携带多架构 so, 全量打包会膨胀数十 MB;
+        // 2017 年后国行手机均为 arm64, 只保留 arm64-v8a。如需兼容 32 位老机型, 追加 'armeabi-v7a'
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+
+        // 体积优化二: 只保留中英文资源, 剔除 appcompat/material/agora 等依赖携带的上百种语言资源
+        resConfigs "zh", "en"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // 个人项目暂用调试签名保证 APK 可直接安装; 正式发布必须替换为自有 keystore
+            signingConfig signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/*.kotlin_module', 'DebugProbesKt.bin']
+        }
+    }
+}
+
+dependencies {
+    // ==================== AndroidX 基础 ====================
+    implementation libs.androidx.core
+    implementation libs.androidx.appcompat
+    implementation 'com.google.android.material:material:1.10.0'
+
+    // ==================== 网络层 ====================
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // converter-protobuf 传递依赖完整版 protobuf-java, 排除后统一走 lite 运行时
+    implementation('com.squareup.retrofit2:converter-protobuf:2.9.0') {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+
+    // ==================== 序列化/存储 ====================
+    // 体积优化三: Android 专用 lite 运行时(约 600KB), 替代完整版 protobuf-java(约 8MB),
+    // 生成代码由 proto/MessageProto.proto 以 --java_out=lite 重新生成, 线格式与后端完全兼容
+    implementation 'com.google.protobuf:protobuf-javalite:4.31.1'
+    def room_version = "2.5.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // ==================== 图片 ====================
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.github.yalantis:ucrop:2.2.8'
+
+    // ==================== 音视频通话 ====================
+    // 体积优化: 声网 Lite SDK (4.4.0+ 提供), 仅含基础音视频通话 + 视频编解码扩展,
+    // 相比 full-sdk 不带任何高级扩展 so; 通话质量由声网核心引擎保证 (内置 3A 处理)
+    implementation 'io.agora.rtc:lite-sdk:4.5.2'
+
+    // ==================== 测试 ====================
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+}

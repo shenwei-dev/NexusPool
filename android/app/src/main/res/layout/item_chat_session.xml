@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="#FFFFFF"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- 1. 左侧头像及气泡容器 (左边距 bf = 16dp, 右边距 bl = 4dp) -->
+<androidx.constraintlayout.widget.ConstraintLayout
+android:id="@+id/layout_avatar_container"
+android:layout_width="70dp"
+android:layout_height="70dp"
+android:layout_marginStart="10dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <!-- 头像 (i3 = 48dp) -->
+<com.google.android.material.imageview.ShapeableImageView
+android:id="@+id/iv_session_avatar"
+android:layout_width="57dp"
+android:layout_height="57dp"
+android:scaleType="centerCrop"
+android:src="@android:drawable/sym_def_app_icon"
+app:shapeAppearanceOverlay="@style/WeChatAvatarCorner"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 未读数气泡 -->
+<TextView
+android:id="@+id/tv_unread_badge"
+android:layout_width="wrap_content"
+android:layout_height="18dp"
+android:minWidth="18dp"
+android:layout_marginTop="-4dp"
+android:layout_marginEnd="-4dp"
+android:background="@drawable/bg_badge_red_circle"
+android:gravity="center"
+android:includeFontPadding="false"
+android:paddingStart="5.5dp"
+android:paddingEnd="5.5dp"
+android:textColor="@android:color/white"
+android:textSize="9.5sp"
+android:textStyle="bold"
+android:singleLine="true"
+tools:text="1"
+app:layout_constraintEnd_toEndOf="@id/iv_session_avatar"
+app:layout_constraintTop_toTopOf="@id/iv_session_avatar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 2. 👈【重构核心】：右侧双行文本区域。采用 LinearLayout，完全复刻微信官方排版逻辑 -->
+<LinearLayout
+android:layout_width="0dp"
+android:layout_height="match_parent"
+android:layout_marginStart="4dp"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:paddingEnd="16dp"
+    app:layout_constraintStart_toEndOf="@id/layout_avatar_container"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <!-- Row 1: 昵称 + 时间 (水平排列) -->
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:gravity="bottom"
+android:orientation="horizontal">
+
+<!-- 昵称容器 (通过 weight="1.0" 自动挤压) -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
+
+    <TextView
+        android:id="@+id/tv_session_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textFontWeight="500"
+        android:textColor="#181818"
+        android:textSize="28dp"
+    tools:text="妈妈" />
+</LinearLayout>
+
+<!-- 时间戳 (wrap_content，宽度自适应，左边距 8dp) -->
+<TextView
+    android:id="@+id/tv_session_time"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="11dp"
+    android:layout_marginStart="8dp"
+    android:textColor="#949494"
+android:textSize="18dp"
+tools:text="昨天" />
+</LinearLayout>
+
+    <!-- Row 2: 最近消息内容 (由于没有小铃铛，这一行将直接自动拉满至 16dp 右边距边界，与时间完美对齐) -->
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="2dp"
+android:orientation="horizontal">
+
+<!-- 消息容器 (由于没有右侧控件阻挡，该容器通过 weight="1.0" 自动拉满至右侧 16dp 边界) -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
+
+    <TextView
+        android:id="@+id/tv_session_last_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:layout_marginEnd="16dp"
+        android:textColor="#949494"
+        android:textSize="20dp"
+        tools:text="好久没回家了，这周末回来吃个饭吧，做了你最喜欢吃的红烧肉和鸡汤。" />
+</LinearLayout>
+</LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 3. 底部超细底线 (采用微信标准 1px 分割线，颜色为 10% 不透明度黑 vt = #1A000000) -->
+<View
+android:layout_width="match_parent"
+android:layout_height="1px"
+android:layout_marginStart="76dp"
+android:background="#1A000000"
+    app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

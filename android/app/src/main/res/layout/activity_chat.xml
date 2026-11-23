@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F3F3F3">
+
+    <!-- 1. 顶部自定义导航栏 (扁平设计，高度56dp) -->
+<androidx.constraintlayout.widget.ConstraintLayout
+android:id="@+id/custom_toolbar"
+android:layout_width="match_parent"
+android:layout_height="56dp"
+android:background="#F3F3F3"
+app:layout_constraintTop_toTopOf="parent">
+
+<!-- 左侧：返回容器 (大点击区域) -->
+<LinearLayout
+    android:id="@+id/btn_chat_back"
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent">
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_nav_back"
+        app:tint="#1A1A1A" />
+</LinearLayout>
+
+<!-- 中间：绝对水平居中的好友备注/昵称 -->
+<TextView
+    android:id="@+id/tv_chat_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ellipsize="end"
+    android:maxLines="1"
+    android:textColor="#181818"
+    android:textSize="20dp"
+    tools:text="安志浩"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<!-- 右侧：更多按钮 -->
+<ImageView
+    android:id="@+id/btn_chat_more"
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    android:padding="16dp"
+    android:scaleType="centerInside"
+    android:src="@drawable/ic_nav_more"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    app:tint="#1A1A1A"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent" />
+
+<!-- 底部分割线 -->
+<View
+    android:layout_width="match_parent"
+    android:layout_height="0.5dp"
+    android:background="#D1D1D1"
+    app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 2. 消息列表区 -->
+<androidx.recyclerview.widget.RecyclerView
+android:id="@+id/rv_messages"
+android:layout_width="match_parent"
+android:layout_height="0dp"
+android:clipToPadding="false"
+android:paddingTop="8dp"
+android:paddingBottom="8dp"
+android:background="#EDEDED"
+app:layout_constraintTop_toBottomOf="@id/custom_toolbar"
+app:layout_constraintBottom_toTopOf="@id/layout_input_panel" />
+
+    <!-- 3. 底部极简输入和发送面板 (对标微信 F7 浅灰背景) -->
+<LinearLayout
+android:id="@+id/layout_input_panel"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="#F7F7F7"
+android:orientation="vertical"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintBottom_toTopOf="@id/layout_more_panel">
+
+<!-- 细分割线 -->
+<View
+    android:layout_width="match_parent"
+    android:layout_height="0.5dp"
+    android:background="#E0E0E0" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="8dp">
+
+    <!-- 文本输入框 (大厂最规范的自适应弹性圆角输入框) -->
+    <EditText
+        android:id="@+id/et_message_input"
+        android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:maxHeight="120dp"
+
+    android:layout_weight="1"
+    android:background="@drawable/bg_chat_bubble_receive"
+    android:gravity="center_vertical|start"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+
+    android:textColor="#1A1A1A"
+    android:textSize="16sp"
+    android:importantForAutofill="no"
+
+    android:inputType="textMultiLine"
+    android:singleLine="false"/>
+
+    <!-- 4. 右侧按钮容器 (同位置动态切换加号/发送按钮) -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp">
+
+        <!-- 加号按钮 (无输入内容时展示) -->
+        <ImageView
+            android:id="@+id/btn_plus"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="4dp"
+            android:src="@drawable/icons_outlined_add2"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="visible" />
+
+        <!-- 发送按钮 (有输入内容时展示，微信绿) -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_send"
+            android:layout_width="60dp"
+            android:layout_height="36dp"
+            android:text="发送"
+            android:textColor="#B2B2B2"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:background="@drawable/bg_btn_send_selector"
+            android:visibility="gone" /> <!-- 默认隐藏 -->
+
+    </FrameLayout>
+
+</LinearLayout>
+</LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_more_panel"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:background="#F7F7F7"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- 使用 4 列的网格布局存放图标 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:rowCount="1">
+
+            <!-- 选项一：相册组合键 -->
+            <LinearLayout
+                android:id="@+id/btn_option_album"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <!-- 微信白色圆角底卡 (40dp 头像同款圆角) -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chat_album"
+                        app:tint="#515151" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="相册"
+                    android:textColor="#515151"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </GridLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

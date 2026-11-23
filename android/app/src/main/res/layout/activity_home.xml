@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="#EDEDED">
+
+    <!-- 1. 顶部导航栏 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="#EDEDED"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信"
+            android:textColor="#161616"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/btn_add"-->
+<!--            android:layout_width="44dp"-->
+<!--            android:layout_height="44dp"-->
+<!--            android:layout_marginEnd="0dp"-->
+<!--            android:padding="9dp"-->
+<!--            android:src="@drawable/icons_outlined_add2"-->
+<!--            app:tint="#181818"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/btn_search"-->
+<!--            android:layout_width="44dp"-->
+<!--            android:layout_height="44dp"-->
+<!--            android:padding="9dp"-->
+<!--            android:src="@drawable/icons_outlined_search"-->
+<!--            app:tint="#181818"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/btn_add"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#FBFBFB"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 2. 中间 Fragment 容器 -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/home_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/divider_bottom" />
+
+    <!-- 3. 底部细分割线 -->
+    <View
+        android:id="@+id/divider_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E5E5E5"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_container" />
+
+    <!-- 4. 底部 4 等分微信导航栏容器 -->
+    <LinearLayout
+        android:id="@+id/bottom_navigation_container"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="#F7F7F7"
+        android:orientation="horizontal"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- 选项一：微信 (占比 1/4) -->
+        <LinearLayout
+            android:id="@+id/tab_chat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <FrameLayout
+                android:layout_width="33.6dp"
+                android:layout_height="33.6dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- 微信图标 -->
+                <ImageView
+                    android:id="@+id/iv_tab_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/selector_tab_chat" />
+
+                <!-- 带数字的未读气泡 -->
+                <TextView
+                    android:id="@+id/tv_tab_chat_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:minWidth="18dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginEnd="-10dp"
+                    android:background="@drawable/bg_badge_red_circle"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingStart="5.5dp"
+                    android:paddingEnd="5.5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="1" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_tab_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="微信"
+                android:textSize="14.4dp"
+                android:textColor="#1E1E1E" />
+        </LinearLayout>
+
+        <!-- 选项二：通讯录 (占比 1/4) -->
+        <LinearLayout
+            android:id="@+id/tab_contacts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <FrameLayout
+                android:layout_width="33.6dp"
+                android:layout_height="33.6dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- 通讯录图标 -->
+                <ImageView
+                    android:id="@+id/iv_tab_contacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/selector_tab_contact" />
+
+                <!-- 通讯录数字气泡 -->
+                <TextView
+                    android:id="@+id/tv_tab_contacts_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:minWidth="18dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginEnd="-10dp"
+                    android:background="@drawable/bg_badge_red_circle"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingStart="5.5dp"
+                    android:paddingEnd="5.5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="1" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_tab_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="通讯录"
+                android:textSize="14.4dp"
+                android:textColor="#1E1E1E" />
+        </LinearLayout>
+
+        <!-- 选项三：发现 (占比 1/4) -->
+        <LinearLayout
+            android:id="@+id/tab_discover"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <FrameLayout
+                android:layout_width="33.6dp"
+                android:layout_height="33.6dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- 发现图标 -->
+                <ImageView
+                    android:id="@+id/iv_tab_discover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/selector_tab_discover" />
+
+                <!-- 发现普通小红点 -->
+                <ImageView
+                    android:id="@+id/iv_tab_discover_dot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginEnd="-3dp"
+                    android:background="@drawable/bg_badge_red_dot"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </FrameLayout>
+            <TextView
+                android:id="@+id/tv_tab_discover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="发现"
+                android:textSize="14.4dp"
+                android:textColor="#1E1E1E" />
+        </LinearLayout>
+
+        <!-- 选项四：我 (占比 1/4) -->
+        <LinearLayout
+            android:id="@+id/tab_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <!-- 👈 【已修正】：删除了多余的 RelativeLayout 标签，保持与前三项一致的 FrameLayout 干净结构 -->
+            <FrameLayout
+                android:layout_width="33.6dp"
+                android:layout_height="33.6dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- 我 图标 -->
+                <ImageView
+                    android:id="@+id/iv_tab_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/selector_tab_me" />
+
+                <!-- 我 普通小红点 -->
+                <ImageView
+                    android:id="@+id/iv_tab_me_dot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginEnd="-3dp"
+                    android:background="@drawable/bg_badge_red_dot"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_tab_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="我"
+                android:textSize="14.4dp"
+                android:textColor="#1E1E1E" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

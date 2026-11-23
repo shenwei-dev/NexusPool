@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F7F7F7"> <!-- 微信温润浅灰底色 -->
+
+    <!-- 1. 顶部极简导航栏 (高度56dp，扁平设计) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 左侧返回组合键 -->
+        <LinearLayout
+            android:id="@+id/btn_back_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:paddingStart="12dp"
+            android:paddingEnd="16dp"
+            tools:ignore="MissingConstraints">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nav_back"
+                app:tint="#1A1A1A" />
+        </LinearLayout>
+
+        <!-- 右侧更多选项 -->
+        <ImageView
+            android:id="@+id/btn_more"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_nav_more"
+            app:tint="#1A1A1A"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 2. 用户核心信息名片卡片 (白底) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:paddingStart="24dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="36dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <!-- 头像 (大厂标准的 72dp 矩形微圆角) -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/sym_def_app_icon"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 👈 【核心重构】：使用垂直排列的 LinearLayout，支持极速、无缝的 [动态折叠/隐藏昵称行] -->
+        <LinearLayout
+            android:id="@+id/layout_text_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_avatar">
+
+            <!-- 名字 (大厂20sp粗体，可能是备注名，也可能是原始昵称) -->
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="null"
+                android:textColor="#181818"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- 昵称 (14sp 灰字，微信规范：有备注时显示，无备注时 GONE 隐藏) -->
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                tools:text="昵称：null"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+            <!-- 微信号 (14sp 灰字) -->
+            <TextView
+                android:id="@+id/tv_user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="微信号：null"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- 3. 灰度间隔 (0.5dp细线分隔 + 8dp物理间距) -->
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E5E5E5"
+        app:layout_constraintTop_toBottomOf="@id/layout_header" />
+
+    <View
+        android:id="@+id/view_spacer"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toBottomOf="@id/view_divider" />
+
+    <!-- 4. 底部发消息与音视频通话区 (对标微信无边框扁平白底面板) -->
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/view_spacer">
+
+        <!-- 按钮一：发消息 (高56dp，16sp字号) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_send_message"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="发消息"
+            android:textColor="#576B95"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_action_message"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="#576B95"
+            app:rippleColor="#1A576B95"
+            android:stateListAnimator="@null" />
+
+        <!-- 细分割线 (左侧缩进24dp，对标微信) -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="24dp"
+            android:background="#E5E5E5" />
+
+        <!-- 按钮二：音视频通话 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_av_call"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="音视频通话"
+            android:textColor="#576B95"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_action_call"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="#576B95"
+            app:rippleColor="#1A576B95"
+            android:stateListAnimator="@null" />
+
+    </LinearLayout>
+
+    <!-- 5. 剩余空间自然留白灰色填充 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#F7F7F7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_buttons" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

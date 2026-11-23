@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C1E">
+
+    <!-- 1. 左上角返回/缩小窗口图标 -->
+    <ImageView
+        android:id="@+id/iv_minimize"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
+        android:src="@android:drawable/ic_menu_crop"
+        app:tint="#E5E5E5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 2. 用户头像 (微信同款平滑大圆角) -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_call_avatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="160dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/sym_def_app_icon"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 3. 用户姓名 -->
+    <TextView
+        android:id="@+id/tv_call_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="阿狸哩"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_call_avatar" />
+
+    <!-- 4. 呼叫状态文本 -->
+    <TextView
+        android:id="@+id/tv_call_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:textColor="#B0B0B3"
+        android:textSize="16sp"
+        tools:text="等待对方接受邀请..."
+        app:layout_constraintBottom_toTopOf="@id/layout_ringing_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!-- ==================== 面板 A：来电响铃控制区（默认隐藏） ==================== -->
+    <LinearLayout
+        android:id="@+id/layout_ringing_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+
+        <!-- 拒绝 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_decline"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#FA5151"
+                app:cornerRadius="36dp"
+                app:icon="@drawable/ic_chat_hangup"
+                app:iconSize="32dp"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:elevation="0dp"
+                android:stateListAnimator="@null"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="拒绝"
+                android:textColor="#E5E5E5"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 接听 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_accept"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#07C160"
+                app:cornerRadius="36dp"
+                app:icon="@drawable/ic_chat_accept"
+                app:iconSize="32dp"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:elevation="0dp"
+                android:stateListAnimator="@null"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="接听"
+                android:textColor="#E5E5E5"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- ==================== 面板 B：通话中/拨打中控制区 ==================== -->
+    <LinearLayout
+        android:id="@+id/layout_talking_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- 静音 (麦克风开关) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_mute_mic"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="36dp"
+                app:icon="@drawable/ic_chat_mic"
+                app:iconSize="28dp"
+                app:iconTint="#1B1B1D"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:elevation="0dp"
+                android:stateListAnimator="@null"/>
+            <TextView
+                android:id="@+id/tv_mic_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="麦克风已开"
+                android:textColor="#E5E5E5"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 挂断/取消 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_hangup"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#FA5151"
+                app:cornerRadius="38dp"
+                app:icon="@drawable/ic_chat_hangup"
+                app:iconSize="32dp"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:elevation="0dp"
+                android:stateListAnimator="@null"/>
+            <TextView
+                android:id="@+id/tv_hangup_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="取消"
+                android:textColor="#E5E5E5"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 免提 (扬声器开关) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_toggle_speaker"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#33FFFFFF"
+                app:cornerRadius="36dp"
+                app:icon="@drawable/ic_chat_speaker"
+                app:iconSize="28dp"
+                app:iconTint="#FFFFFF"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:elevation="0dp"
+                android:stateListAnimator="@null"/>
+            <TextView
+                android:id="@+id/tv_speaker_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="扬声器已关"
+                android:textColor="#E5E5E5"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

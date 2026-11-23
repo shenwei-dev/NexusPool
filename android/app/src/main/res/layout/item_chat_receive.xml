@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- 1. 对方的头像 -->
+    <ImageView
+        android:id="@+id/iv_receive_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/sym_def_app_icon" />
+
+    <!-- 2. 消息气泡 (白色背景，圆角) -->
+    <TextView
+        android:id="@+id/tv_receive_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:maxWidth="240dp"
+        android:background="@drawable/bg_chat_bubble_receive"
+        android:padding="10dp"
+        android:text="测试接收内容"
+        android:textColor="#1A1A1A"
+        android:textSize="16sp" />
+
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1. 终态：当该 Tab 被选中激活时（展示您的第 3 个 XML 终态图标，如微信绿实心） -->
+    <item android:state_selected="true" android:drawable="@drawable/icons_filled_me_hl" />
+
+    <!-- 3. 初态：默认未选中状态（展示您的第 1 个 XML 初态图标，如灰色空心） -->
+    <item android:drawable="@drawable/icons_outlined_me" />
+
+</selector>

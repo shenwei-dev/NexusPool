@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- 1. 发送失败红点 (默认隐藏) -->
+    <ImageView
+        android:id="@+id/iv_send_error"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:src="@android:drawable/stat_notify_error"
+        android:visibility="gone" />
+
+    <!-- 2. 发送中转圈 (默认隐藏) -->
+    <ProgressBar
+        android:id="@+id/progress_sending"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone" />
+
+    <!-- 3. 消息气泡 (微信绿背景，圆角) -->
+    <TextView
+        android:id="@+id/tv_send_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:maxWidth="240dp"
+        android:background="@drawable/bg_chat_bubble_send"
+        android:padding="10dp"
+        android:text="测试发送内容"
+        android:textColor="#1A1A1A"
+        android:textSize="16sp" />
+
+    <!-- 4. 我的头像 (ShapeableImageView 或 普通 ImageView) -->
+    <ImageView
+        android:id="@+id/iv_send_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/sym_def_app_icon" />
+
+</LinearLayout>

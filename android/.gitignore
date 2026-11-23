@@ -1,0 +1,30 @@
+# Android Studio / Gradle
+*.iml
+.gradle/
+**/build/
+.cxx/
+.externalNativeBuild/
+captures/
+.kotlin/
+.idea/
+local.properties
+google-services.json
+
+# 签名、密钥与发布产物（切勿提交）
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.apk
+*.aab
+*.ap_
+*.hprof
+*.log
+*.db
+*.sqlite*
+*.realm
+
+# OS
+.DS_Store
+Thumbs.db

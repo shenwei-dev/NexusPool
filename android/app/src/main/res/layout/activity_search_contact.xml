@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F7F7F7">
+
+    <!-- 1. 顶部搜索栏容器 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 搜索输入框 (白底圆角，高度40dp) -->
+        <EditText
+            android:id="@+id/et_search_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_chat_bubble_receive"
+            android:hint="搜索 账号/手机号"
+            android:textColorHint="#B2B2B3"
+            android:textColor="#181818"
+            android:textSize="16sp"
+            android:paddingStart="40dp"
+            android:paddingEnd="36dp"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 嵌入在输入框左侧的放大镜图标 -->
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="#B2B2B3"
+            app:layout_constraintBottom_toBottomOf="@id/et_search_input"
+            app:layout_constraintStart_toStartOf="@id/et_search_input"
+            app:layout_constraintTop_toTopOf="@id/et_search_input" />
+
+        <!-- 嵌入在输入框右侧的一键清空按钮 (x) (默认隐藏) -->
+        <ImageView
+            android:id="@+id/btn_clear"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="2dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_chat_clear"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/et_search_input"
+            app:layout_constraintEnd_toEndOf="@id/et_search_input"
+            app:layout_constraintTop_toTopOf="@id/et_search_input"
+            tools:visibility="visible" />
+
+        <!-- 取消按钮 (微信深邃蓝) -->
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#576B95"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 细分割线 -->
+    <View
+        android:id="@+id/view_search_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E5E5E5"
+        app:layout_constraintTop_toBottomOf="@id/layout_search_bar" />
+
+    <!-- 2. 动态搜索展示条目 (白底，高度64dp，默认隐藏) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_search_entry"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/view_search_divider"
+        tools:visibility="visible">
+
+        <!-- 绿色方形添加好友图标 -->
+        <FrameLayout
+            android:id="@+id/layout_green_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_green_box"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_chat_add_contact" />
+        </FrameLayout>
+
+        <!-- 动态文本（例如 搜索:3） -->
+        <TextView
+            android:id="@+id/tv_search_query_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="#181818"
+            android:textSize="16sp"
+            tools:text="搜索:3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_arrow"
+            app:layout_constraintStart_toEndOf="@id/layout_green_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 右侧跳转箭头 -->
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_chevron_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 底部超细分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#E5E5E5"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:text="该用户不存在"
+        android:textColor="#9E9E9E"
+        android:textSize="17sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/layout_search_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="NotSibling" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

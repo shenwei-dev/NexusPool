@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="#FFFFFF">
+
+    <!-- 头像 (微信标准微圆角) -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_req_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/sym_def_app_icon"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 申请者昵称 (15sp 粗体) -->
+    <TextView
+        android:id="@+id/tv_req_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#181818"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="安常硕"
+        app:layout_constraintEnd_toStartOf="@id/layout_action_container"
+        app:layout_constraintStart_toEndOf="@id/iv_req_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_req_avatar" />
+
+    <!-- 打招呼内容 (13sp 灰字) -->
+    <TextView
+        android:id="@+id/tv_req_greeting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="我是：安对对对"
+        android:textColor="#9E9E9E"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@id/tv_req_name"
+        app:layout_constraintStart_toStartOf="@id/tv_req_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_req_name" />
+
+    <!-- 右侧动作容器 -->
+    <FrameLayout
+        android:id="@+id/layout_action_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 同意按钮 (绿色圆角小药丸) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_accept"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="接受"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:backgroundTint="#07C160"
+            app:cornerRadius="4dp"
+            app:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:visibility="visible" />
+
+        <!-- 已同意标签 (灰字，默认隐藏) -->
+        <TextView
+            android:id="@+id/tv_status_added"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="已添加"
+            android:textColor="#9E9E9E"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <!-- 底部底线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="72dp"
+        android:background="#E5E5E5"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
