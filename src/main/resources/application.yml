@@ -1,0 +1,123 @@
+spring:
+  # 从项目根目录的 .env 加载本地配置 (文件不存在时忽略, 系统环境变量优先级更高)
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: family-chat-backend
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/liteim?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      database: 0
+      # 默认空密码, 兼容本地/无密码 Redis 环境
+      password: ${REDIS_PASSWORD:}
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      command-timeout: 2000
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+  jackson:
+    default-property-inclusion: non_null
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  # 优雅停机: 收到停机信号后等待进行中的请求处理完成
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+# Web 服务器配置 (注意: 必须位于顶层, 嵌套在 spring 下会被静默忽略)
+server:
+  port: 8080
+  shutdown: graceful
+  compression:
+    enabled: true
+    min-response-size: 2048
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/json,application/xml
+
+# Netty WebSocket 长连接服务配置
+netty:
+  websocket:
+    port: 8081
+
+mybatis:
+  type-aliases-package: com.family.chat.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: null
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    access-token-expire-ms: 1800000
+    refresh-token-expire-ms: 2592000000
+    refresh-token-prefix: "refresh_token:"
+    device-prefix: "device:"
+
+limit:
+  api:
+    user-limit: 60
+    ip-limit: 600
+    api-limit: 1200
+    period: 60
+  global:
+    system-limit: 1000
+    ip-limit: 100
+    window-ms: 1000
+
+user:
+  register:
+    max-retry: 5
+    lock-wait-time: 5
+    lock-lease-time: 30
+
+ai:
+  model: ${AI_MODEL:qwen3.7-plus}
+  api-key: ${AI_API_KEY}
+  base-url: ${AI_BASE_URL}
+
+oss:
+  b2:
+    # 占位默认值为空, 未配置 OSS 时应用可正常启动, 调用上传接口才会失败
+    endpoint: ${OSS_ENDPOINT:}
+    region: ${OSS_REGION:}
+    access-key-id: ${OSS_ACCESS_KEY_ID:}
+    secret-access-key: ${OSS_SECRET_ACCESS_KEY:}
+    bucket-name: ${OSS_BUCKET_NAME:}
+
+# 可观测性: Prometheus 指标采集 (对标 RED 方法论: Rate/Errors/Duration)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      # 全局统一应用标签, Grafana/Prometheus 按应用过滤
+      application: family-chat-backend
+    distribution:
+      # RT 直方图分桶: 支撑 histogram_quantile 计算任意分位数 (P95/P99)
+      percentiles-histogram:
+        http.server.requests: true
+      # 客户端侧快速分位数 (免 PromQL 计算, 面板直读)
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
+      # SLA 分桶: 阿里典型 RT 档位, 用于成功率/达标率面板
+      slo:
+        http.server.requests: 50ms,100ms,200ms,500ms,1s,3s

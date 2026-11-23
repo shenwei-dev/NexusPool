@@ -1,0 +1,46 @@
+services:
+  # 1. Loki: 日志存储引擎 (启用 Ruler 告警规则评估, 配置与规则从宿主机挂载)
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: chat_loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./monitoring/loki/loki-config.yaml:/etc/loki/loki-config.yaml
+      - ./monitoring/loki/rules:/etc/loki/rules
+      - loki-data:/loki
+
+  # 2. Prometheus: 指标存储引擎, 抓取后端 /actuator/prometheus
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: chat_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    # Linux 环境下映射宿主机域名; Docker Desktop (Windows) 自带该解析
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # 3. Grafana: 可视化大盘 (数据源与 RED 大盘通过 provisioning 自动预置)
+  grafana:
+    image: grafana/grafana:10.1.0
+    container_name: chat_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      # 通过 .env 中的 GRAFANA_ADMIN_PASSWORD 覆盖, 避免提交弱口令
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - loki
+      - prometheus
+
+volumes:
+  loki-data:
+  prometheus-data:
+  grafana-data:

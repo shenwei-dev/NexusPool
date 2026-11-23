@@ -1,0 +1,15 @@
+# Prometheus 抓取配置
+# 对标阿里监控实践: 15s 采集粒度, 指标按应用维度打标
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # 后端应用: Spring Boot Actuator 暴露的 Micrometer 指标端点
+  # 容器内通过 host.docker.internal 访问宿主机 8080 端口
+  - job_name: family-chat-backend
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+        labels:
+          app: family-chat-backend

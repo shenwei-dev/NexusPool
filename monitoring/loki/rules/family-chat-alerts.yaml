@@ -1,0 +1,40 @@
+# Loki Ruler 告警规则
+# 对标阿里告警分级实践: 错误率突增 / 慢请求 / 服务失联三大核心场景
+# 加载路径: 容器内 /etc/loki/rules/family-chat/ (ruler.storage.local.directory 递归扫描)
+namespace: family-chat
+groups:
+  - name: backend-alerts
+    interval: 30s
+    rules:
+      # 场景一: ERROR 日志速率突增 (对标阿里"错误率告警")
+      # 阈值: 5 分钟窗口内 ERROR 日志速率 > 0.5 条/秒, 持续 2 分钟触发
+      - alert: BackendHighErrorRate
+        expr: sum(rate({app="family-chat-backend", level="ERROR"}[5m])) > 0.5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "family-chat-backend ERROR 日志速率异常"
+          description: "ERROR 日志 5m 速率超过 0.5 条/s 已持续 2 分钟, 当前速率: {{ $value | printf \"%.2f\" }} 条/s。请在 Grafana Explore 中过滤 level=ERROR 定位异常堆栈。"
+
+      # 场景二: HTTP 慢请求 (对标阿里"RT 告警")
+      # 从 WebLogAspect 的 [HTTP RESPONSE] [rt=XXms] 日志提取耗时, 5 分钟内 >1s 的慢请求超过 3 次触发
+      - alert: BackendSlowRequests
+        expr: 'count_over_time({app="family-chat-backend"} |= "[rt=" | regexp "\[rt=(?P<rt>\d+)ms\]" | rt > 1000 [5m]) > 3'
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "family-chat-backend 出现批量慢请求 (RT>1s)"
+          description: "5 分钟内 RT 超过 1 秒的 HTTP 请求已达 {{ $value }} 次, 请结合 traceId 追踪慢接口调用链。"
+
+      # 场景三: 服务失联 (对标阿里"可用性告警")
+      # 应用 5 分钟无任何日志上报, 大概率进程宕机或推送链路中断
+      - alert: BackendLogMissing
+        expr: absent_over_time({app="family-chat-backend"}[5m])
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "family-chat-backend 日志流中断"
+          description: "应用 5 分钟内无任何日志上报, 请检查后端进程与 Loki 推送链路。"

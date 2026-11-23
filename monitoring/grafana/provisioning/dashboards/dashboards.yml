@@ -1,0 +1,10 @@
+# Grafana 大盘文件加载器: 从本目录加载 JSON 大盘
+apiVersion: 1
+
+providers:
+  - name: family-chat
+    folder: FamilyChat
+    type: file
+    disableDeletion: false
+    options:
+      path: /etc/grafana/provisioning/dashboards

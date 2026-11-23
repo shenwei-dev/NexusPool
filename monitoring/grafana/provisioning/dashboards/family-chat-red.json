@@ -1,0 +1,137 @@
+{
+  "uid": "family-chat-red",
+  "title": "FamilyChat RED 大盘",
+  "tags": ["family-chat", "red"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+  "editable": true,
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "QPS (Rate)",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"family-chat-backend\"}[$__rate_interval]))",
+          "legendFormat": "总 QPS"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "错误率 (Errors)",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": { "unit": "percentunit", "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "red", "value": 0.01 } ] } }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"family-chat-backend\", status=~\"5..\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"family-chat-backend\"}[$__rate_interval]))",
+          "legendFormat": "5xx 错误率"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "RT 分位数 (Duration)",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{application=\"family-chat-backend\"}[$__rate_interval])) by (le))",
+          "legendFormat": "P50"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application=\"family-chat-backend\"}[$__rate_interval])) by (le))",
+          "legendFormat": "P95"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{application=\"family-chat-backend\"}[$__rate_interval])) by (le))",
+          "legendFormat": "P99"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "WS 在线连接数",
+      "gridPos": { "h": 8, "w": 4, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "options": { "colorMode": "value", "graphMode": "area" },
+      "targets": [
+        {
+          "expr": "ws_online_connections{application=\"family-chat-backend\"}",
+          "legendFormat": "在线用户"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "ERROR 日志速率 (Loki)",
+      "gridPos": { "h": 8, "w": 8, "x": 4, "y": 8 },
+      "datasource": { "type": "loki", "uid": "loki" },
+      "fieldConfig": { "defaults": { "unit": "cps" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "sum(rate({app=\"family-chat-backend\", level=\"ERROR\"}[$__auto]))",
+          "legendFormat": "ERROR 速率"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "消息处理 P95 (按类型)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(im_message_process_duration_seconds_bucket{application=\"family-chat-backend\"}[$__rate_interval])) by (le, type))",
+          "legendFormat": "{{type}} P95"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "JVM 堆内存与线程",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": { "unit": "bytes" }, "overrides": [ { "matcher": { "id": "byName", "options": "活跃线程" }, "properties": [ { "id": "unit", "value": "short" }, { "id": "custom.axisPlacement", "value": "right" } ] } ] },
+      "targets": [
+        {
+          "expr": "sum(jvm_memory_used_bytes{application=\"family-chat-backend\", area=\"heap\"})",
+          "legendFormat": "堆内存已用"
+        },
+        {
+          "expr": "jvm_threads_live_threads{application=\"family-chat-backend\"}",
+          "legendFormat": "活跃线程"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "logs",
+      "title": "ERROR 日志明细 (Loki)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "datasource": { "type": "loki", "uid": "loki" },
+      "options": { "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+      "targets": [
+        {
+          "expr": "{app=\"family-chat-backend\", level=\"ERROR\"}",
+          "legendFormat": ""
+        }
+      ]
+    }
+  ]
+}
